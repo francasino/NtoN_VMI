@@ -61,6 +61,11 @@ contract Order{
 	address constant public customer = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9;
 	address constant public vendor = 0xE0F5206bbd039E7B0592D8918820024E2a743445;
 	address constant public distributor = 0xE0F5206bbd039e7b0592d8918820024E2A743222;
+	
+	//address constant public addrSCD = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9 
+	//address constant public addrSCV = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9
+	//address constant public addrSCR = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9
+	
 
 	bool private  triggered;
 	bool private  delivery;
@@ -83,6 +88,9 @@ contract Order{
 
 
 	constructor () public { // constructor, creates order. we map starting from id=1
+	//updateNumberOfDeliverers(addrSCD);
+	//updateNumberOfVendors(addrSCV);
+	//updateNumberOfRetailers(addrSCR);
         addProduct("Apples",200, "Delivey in 3 days, temperature X");
         addProduct("Oranges",150, "Delivey in 3 days, temperature X");
         addTrace(1,"some coordinates", "name or address of actual owner","timestamp");
