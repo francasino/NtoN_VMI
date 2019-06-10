@@ -12,23 +12,21 @@ Nevertheless, the code is kept clear for the sake of understanding.
 TODO - Add into the hash algorithm the structs of the token. Now only initial info is hashed. 
 */
 
-contract Stakeholders{
+contract Vendors{
  
-    struct Stakeholder{
+    struct Vendor{
         uint id; // this especific process, containing id and quantity
-        string name; // the product
-        string timestamp; // when it was applied, just in case it is not the same date than token creation
-        uint [] involvedtokens; // tokens used by stakeholder
+        string name; // the vendor
+        string timestamp; //
         string description; // other info
-        address maker; // who applied this proces
+        address maker; // who registered
         bool active;
         string hashIPFS; // hash of the elements of the struct, for auditing AND IPFS 
     }
 
-    mapping(uint => Stakeholder) private stakeholderChanges; //
+    mapping(uint => Vendor) private vendorChanges; //
 
-    uint private tokensCount;
-    uint private stakeholderCount;
+    uint private vendorCount;
 
     // events, since SC is for global accounts it does not have too much sense but is left here 
     event updateEvent ( // triggers update complete
@@ -37,61 +35,44 @@ contract Stakeholders{
     event changeStatusEvent ( // triggers status change
     );
 
-    address constant public stakeholder = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9; // who registers the token into system. 
-    address constant public stakeholder2 = 0xE0F5206bbd039e7b0592d8918820024E2A743222;
+    address constant public vendor = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9; // who registers the token into system. 
+    address constant public vendor2 = 0xE0F5206bbd039e7b0592d8918820024E2A743222;
 
     constructor () public { // constructor, inserts new token in system. we map starting from id=1, hardcoded values of all
-        addStakeholder("Manufacturer","1130009112019","Local producer of vegetables"); //
+        addVendor("Manufacturer","1130009112019","Local producer of vegetables"); //
         
     }
     
     // add stakeholder to the list
-    function addStakeholder (string memory _name, string memory _timestamp, string memory _description) public {
-        /*require(_tokenId > 0 && _tokenId <= tokensCount);  // security check avoid memory leaks
-        require(msg.sender == tokens[_tokenId].owner); //Only token creator can modify it. We can relax this after
-        require(true==tokens[_tokenId].active); //  only if active
-        */
-        stakeholderCount++;
-        stakeholderChanges[stakeholderCount].id = stakeholderCount;
-        stakeholderChanges[stakeholderCount].name = _name; 
-        stakeholderChanges[stakeholderCount].timestamp = _timestamp; 
-        stakeholderChanges[stakeholderCount].description = _description; 
-        stakeholderChanges[stakeholderCount].active = true; 
-        stakeholderChanges[stakeholderCount].maker = msg.sender;
-        emit updateEvent(); // trigger event 
-    }
-
-    function addStakeholderToken(uint memory _id) public {
-
-        stakeholderChanges[stakeholderCount].involvedtokens.push(_id);
-        emit updateEvent(); // trigger event 
-    }
-    
-    // get the products managed by the stakeholder
-    function getStakeholdersToken (uint memory _id) public view returns (uint [] memory)  {
-        require(_id > 0 && _id <= stakeholderCount);  // security check avoid memory leaks
-        require(msg.sender == stakeholderChanges[_id].maker);
+    function addVendor (string memory _name, string memory _timestamp, string memory _description) public {
         
-        return stakeholderChanges[_id].involvedtokens;
+        vendorCount++;
+        vendorChanges[vendorCount].id = vendorCount;
+        vendorChanges[vendorCount].name = _name; 
+        vendorChanges[vendorCount].timestamp = _timestamp; 
+        vendorChanges[vendorCount].description = _description; 
+        vendorChanges[vendorCount].active = true; 
+        vendorChanges[vendorCount].maker = msg.sender;
+        emit updateEvent(); // trigger event 
     }
 
     function changeStatus (uint memory _id, bool memory _active) public {
-        require(_id > 0 && _id <= stakeholderCount); 
-        stakeholderChanges[stakeholderCount].active = _active;
+        require(_id > 0 && _id <= vendorCount); 
+        vendorChanges[vendorCount].active = _active;
         emit changeStatusEvent(); // trigger event 
     }
 
-    function getStakeholder (uint memory _id) public view returns (Stakeholder memory)  {
-        require(_id > 0 && _id <= stakeholderCount);  
-        require(msg.sender == stakeholderChanges[_id].maker); // only if he is the author of the content
+    function getVendor (uint memory _id) public view returns (Vendor memory)  {
+        require(_id > 0 && _id <= vendorCount);  
+        require(msg.sender == vendorChanges[_id].maker); // only if he is the author of the content
         
-        return stakeholderChanges[_id];
+        return vendorChanges[_id];
     }
     
     // returns global number of status, needed to iterate the mapping and to know info.
-    function getNumberOfStakeholders () public view returns (uint){    
+    function getNumberOfVendors () public view returns (uint){    
         //tx.origin
-        return stakeholdersCount;
+        return vendorCount;
     }
 
 }
