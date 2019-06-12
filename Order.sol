@@ -57,7 +57,7 @@ contract Order{
   uint private retailersCount;
   uint private deliverersCount;
 
-	//declare address of the participants
+	//declare address of the participants, hardcoded. In real life, this will be dynamic
 	address constant public customer = 0xE0f5206BBD039e7b0592d8918820024e2a7437b9;
 	address constant public vendor = 0xE0F5206bbd039E7B0592D8918820024E2a743445;
 	address constant public distributor = 0xE0F5206bbd039e7b0592d8918820024E2A743222;
